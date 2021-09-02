@@ -10,7 +10,7 @@
  */
 // const express = require('express'); //Importar la biblioteca
 
- import express from 'express';
+ import express, { json } from 'express';
  import mongoose from 'mongoose';
 //  import CompanyModel from 'CompanyModel';
 import Company from './models/CompanyModel';
@@ -21,9 +21,14 @@ app.use(express.json());
 
 //Endpoint
 //localhost://3000/users
-app.get('/users', (request, response)=> {
-    response.send("Welcome");
-    console.log(request.query);
+app.get('/data', async (request, response)=> {
+    try {
+        const data = await Company.find().limit(8);
+        response.json(data);
+    }
+    catch(e) {
+        response.json(e);
+    }
 });
 
 app.get('/test', (request, response)=> {
